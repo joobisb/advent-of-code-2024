@@ -43,7 +43,6 @@ func similarity(leftList, rightList []int) int {
 		var similarityOccurence int
 		val, ok := existingMap[leftList[i]]
 		if ok {
-			fmt.Println("inside map", leftList[i], val)
 			totalSimilarity = totalSimilarity + val
 			continue
 		}
