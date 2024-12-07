@@ -40,6 +40,41 @@ func main() {
 		}
 	}
 	fmt.Printf("mid element sum: %d\n", sum)
+	orderAndSumMid()
+}
+
+func orderAndSumMid() {
+	var sum int
+	for _, inp := range inputSlice {
+		var checkSlice []string
+		i := 0
+		checkSlice = append(checkSlice, inp[0])
+		checkFlag := false
+		for i = 1; i < len(inp); i++ {
+			orderingsForI := orderMap[inp[i]]
+
+			for chI, chVal := range checkSlice {
+				for _, ordVal := range orderingsForI {
+					if ordVal == chVal {
+						checkFlag = true
+						temp := inp[i]
+						inp[i] = inp[chI]
+						inp[chI] = temp
+
+						break
+					}
+				}
+			}
+			checkSlice = inp[:i+1]
+		}
+		if checkFlag {
+			midElem := inp[len(inp)/2]
+			midElemInt, _ := strconv.Atoi(midElem)
+			sum += int(midElemInt)
+		}
+	}
+	fmt.Printf("mid element sum after ordering: %d\n", sum)
+
 }
 
 func readAndAssign() {
