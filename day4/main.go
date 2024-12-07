@@ -184,7 +184,66 @@ func main() {
 
 		}
 	}
-	fmt.Printf("count: %d", count)
+	fmt.Printf("count: %d\n", count)
+	checkMAS(data)
+}
+
+func checkMAS(data [][]string) {
+	rowLen := len(data)
+	colLen := len(data[0])
+	var count int
+	for i, row := range data {
+		for j, _ := range row {
+			topLeftI := i - 1
+			topLeftJ := j - 1
+
+			topRightI := i - 1
+			topRightJ := j + 1
+
+			bottomRightI := i + 1
+			bottomRightJ := j + 1
+
+			bottomLeftI := i + 1
+			bottomLeftJ := j - 1
+
+			var tempMap1 = make(map[string]int)
+			var tempMap2 = make(map[string]int)
+			tempMap1 = map[string]int{"S": 1, "M": 1}
+			tempMap2 = map[string]int{"S": 1, "M": 1}
+			//messy, but works in a single iteration of the matrix, got to focus on the positive side :)
+			if data[i][j] == "A" {
+				if topLeftI >= 0 && topLeftJ >= 0 {
+					_, ok := tempMap1[data[topLeftI][topLeftJ]]
+					if ok {
+						delete(tempMap1, data[topLeftI][topLeftJ])
+						if topRightI >= 0 && topRightJ < rowLen {
+							_, ok := tempMap2[data[topRightI][topRightJ]]
+							if ok {
+								delete(tempMap2, data[topRightI][topRightJ])
+								if bottomRightI < colLen && bottomRightJ < rowLen {
+									_, ok := tempMap1[data[bottomRightI][bottomRightJ]]
+									if ok {
+										delete(tempMap1, data[bottomRightI][bottomRightJ])
+										if bottomLeftI < colLen && bottomLeftJ >= 0 {
+											_, ok := tempMap2[data[bottomLeftI][bottomLeftJ]]
+											if ok {
+												delete(tempMap2, data[bottomLeftI][bottomLeftJ])
+												fmt.Println("matched", i, j)
+												count++
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	fmt.Printf("count X-MAS: %d\n", count)
+
 }
 
 func readFile() ([][]string, error) {
