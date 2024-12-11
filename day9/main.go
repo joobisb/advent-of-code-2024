@@ -35,6 +35,9 @@ func main() {
 		}
 	}
 
+	tempIdSlice := make([]string, len(idSlice))
+	copy(tempIdSlice, idSlice)
+
 	for i, j := 0, len(idSlice)-1; i < j; {
 		_, errLeft := strconv.Atoi(idSlice[i])
 		_, errRight := strconv.Atoi(idSlice[j])
@@ -62,6 +65,64 @@ func main() {
 	}
 
 	fmt.Printf("totalSum: %d\n", totalSum)
+	moveBlocksEntirely(tempIdSlice)
+
+}
+
+func moveBlocksEntirely(idSlice []string) {
+
+	for j := len(idSlice) - 1; j >= 0; j-- {
+		_, errRight := strconv.Atoi(idSlice[j])
+
+		if errRight == nil {
+			endIdx := j
+			countDigit := 1
+			for j > 0 {
+				_, errRight := strconv.Atoi(idSlice[j-1])
+				if errRight == nil && idSlice[j-1] == idSlice[endIdx] {
+					countDigit++
+					j--
+				} else {
+					break
+				}
+			}
+
+			for i := 0; i < j; i++ {
+				if idSlice[i] == "." {
+					startIdx := i
+					countDot := 1
+					for i < j {
+						if idSlice[i+1] == "." {
+							countDot++
+						} else {
+							break
+						}
+						i++
+					}
+
+					if countDot >= countDigit {
+						for x := startIdx; x < (startIdx + countDigit); x++ {
+							temp := idSlice[x]
+							idSlice[x] = idSlice[endIdx]
+							idSlice[endIdx] = temp
+							endIdx--
+						}
+						break
+
+					}
+				}
+
+			}
+		}
+
+	}
+
+	var totalSum int
+	for i, v := range idSlice {
+		intV, _ := strconv.Atoi(v)
+		totalSum += (i * intV)
+	}
+	fmt.Printf("total sum after moving to left: %d\n", totalSum)
 
 }
 
