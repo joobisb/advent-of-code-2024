@@ -14,7 +14,7 @@ Each day's solution can be run independently.
 - [x] Day 07 ⭐⭐
 - [ ] Day 08 
 - [x] Day 09 ⭐⭐
-- [ ] Day 10 ⭐
+- [x] Day 10 ⭐⭐
 - [ ] Day 11
 - [ ] Day 12
 - [ ] Day 13
@@ -31,4 +31,4 @@ Each day's solution can be run independently.
 - [ ] Day 24
 - [ ] Day 25
 
-Total stars: 16/50 ⭐
+Total stars: 17/50 ⭐
